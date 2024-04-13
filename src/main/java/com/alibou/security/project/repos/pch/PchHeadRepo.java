@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface PchHeadRepo extends JpaRepository<PchHead, Long> {
@@ -23,5 +24,6 @@ public interface PchHeadRepo extends JpaRepository<PchHead, Long> {
             "WHERE created_at >= ? AND created_at <= ? ORDER BY created_at DESC;",nativeQuery = true)
     List<PchHead> InvoicesBetweenDates(String from,String to);
 
-
+    @Query(value = "SELECT * FROM pch_head WHERE temp=?",nativeQuery = true)
+   Optional<PchHead> FindByTemp(Long i);
 }

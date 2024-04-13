@@ -2,9 +2,13 @@ package com.alibou.security.project.endPoint;
 
 import com.alibou.security.payload.ResponseModel;
 import com.alibou.security.payload.Result;
+import com.alibou.security.project.request.ParamReq;
 import com.alibou.security.project.request.TempRequest;
 import com.alibou.security.project.request.VerRequest;
 import com.alibou.security.project.resp.VerInvoiceResponse;
+import com.alibou.security.project.resp.pch.PchDetailResponse;
+import com.alibou.security.project.resp.pch.PchHeadResponse;
+import com.alibou.security.project.resp.pch.PchTempDetailResponse;
 import com.alibou.security.project.serv.pch.PchServ;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -76,103 +80,83 @@ public class PurchaseController {
         return response;
     }
 
+    @PostMapping("/details")
+    public ResponseEntity<ResponseModel> getDet(@RequestBody ParamReq paramReq) throws SQLException {
 
-    //getAll
-    //getDetails
+        PchDetailResponse pchResponse =new PchDetailResponse();
+        ResponseModel responseModel = new ResponseModel<>();
+        ResponseEntity<ResponseModel> response;
+        Result result = new Result();
+        try {
+            boolean chk = pchServ.isExs(paramReq.getPam());
+            System.out.println(chk);
+            if (!chk) {
+                result.setErrNo(2001);
+                result.setErrMessage("not found");
+                responseModel.setResult(result);
+                responseModel.setData(null);
+                response = new ResponseEntity<>(
+                        responseModel, HttpStatus.OK
+                );
+                return response;
+            }
+
+            var ret = pchServ.getDetailsOfInvView(paramReq.getPam());
+            pchResponse.setList(ret);
+            responseModel.setData(pchResponse);
+
+            result.setErrNo(0);
+            result.setErrMessage("Done");
+            responseModel.setResult(result);
+            return ResponseEntity.ok(responseModel);
+        }
+        catch (Exception exception) {
+            exception.printStackTrace();
+            result.setErrNo(100);
+            System.out.println(exception.getMessage());
+            result.setErrMessage("something want wrong");
+            responseModel.setResult(result);
+            responseModel.setData(null);
+            response = new ResponseEntity<>(
+                    responseModel, HttpStatus.OK
+            );
+
+        }
+        return response;
+    }
+    @PostMapping("/all")
+    public ResponseEntity<ResponseModel> getAll() throws SQLException {
+
+        PchHeadResponse pchResponse =new PchHeadResponse();
+        ResponseModel responseModel = new ResponseModel<>();
+        ResponseEntity<ResponseModel> response;
+        Result result = new Result();
+        try {
+
+            var ret = pchServ.getHeadsInvView();
+            pchResponse.setList(ret);
+            responseModel.setData(pchResponse);
+
+            result.setErrNo(0);
+            result.setErrMessage("Done");
+            responseModel.setResult(result);
+            return ResponseEntity.ok(responseModel);
+        }
+        catch (Exception exception) {
+            exception.printStackTrace();
+            result.setErrNo(100);
+            System.out.println(exception.getMessage());
+            result.setErrMessage("something want wrong");
+            responseModel.setResult(result);
+            responseModel.setData(null);
+            response = new ResponseEntity<>(
+                    responseModel, HttpStatus.OK
+            );
+
+        }
+        return response;
+    }
+
 
 
 }
-//    @PostMapping("/")
-//    public ResponseEntity<ResponseModel> doVer(@RequestBody VerRequest verRequest) throws SQLException {
-//        var x= purchaseServ.doInvoiceInfoJson(verRequest.getId(), verRequest.getDiscount());
-////        System.out.println(x);
-//        VerInvoiceResponse response=new VerInvoiceResponse();
-//        JsonObject jsonObject = JsonParser.parseString(x)
-//                .getAsJsonObject();
-//        response.setCr(String.valueOf(jsonObject.get("created_at")));
-//        response.setDiscount(jsonObject.get("discount").getAsDouble());
-//        response.setTotal(jsonObject.get("total").getAsDouble());
-//        response.setGen(jsonObject.get("gen").getAsLong());
-//        response.setId(jsonObject.get("id").getAsLong());
-//        response.setVendorId(jsonObject.get("vendor_id").getAsInt());
-//
-//        ResponseModel re = new ResponseModel<VerInvoiceResponse>();
-//        re.setData(response);
-//        Result result = new Result();
-//        result.setErrNo(0);
-//        result.setErrMessage("Done");
-//        re.setResult(result);
-//        return ResponseEntity.ok(re);
-//    }
-//    @PostMapping("/detail")
-//    public ResponseEntity<ResponseModel> getDet(@RequestBody VerRequest verRequest) throws SQLException {
-//        var x= purchaseServ.getDetailsOfInvoice(verRequest.getId());
-////        System.out.println(x);
-//        DetailViewResponse response=new DetailViewResponse();
-//        JsonObject jsonObject = JsonParser.parseString(x)
-//                .getAsJsonObject();
-////        response.setList(jsonObject.get('detlst').getAsJsonNull());
-////        response.setCr(String.valueOf(jsonObject.get("created_at")));
-////        response.setDiscount(jsonObject.get("discount").getAsDouble());
-////        response.setTotal(jsonObject.get("total").getAsDouble());
-////        response.setGen(jsonObject.get("gen").getAsLong());
-////        response.setId(jsonObject.get("id").getAsLong());
-////        response.setVendorId(jsonObject.get("vendor_id").getAsInt());
-//
-//        ResponseModel re = new ResponseModel<VerInvoiceResponse>();
-//        re.setData(response);
-//        Result result = new Result();
-//        result.setErrNo(0);
-//        result.setErrMessage("Done");
-//        re.setResult(result);
-//        return ResponseEntity.ok(re);
-//    }
-//
-//    @PostMapping("/all")
-//    public ResponseEntity<ResponseModel<InvoicesResponse>> getAll() {
-//
-//        var x= purchaseServ.allItems();
-//        InvoicesResponse response=new InvoicesResponse();
-//        List<InvoicePurchDto> xlist=new ArrayList<InvoicePurchDto>();
-//        x.forEach(z-> xlist.add(
-//                new InvoicePurchDto(z.getId(),z.getTotal(),z.getDiscount(),z.getGen(),
-//                        z.getVendor().getId(),z.getServ(),z.getCreatedAt(),z.getUpdatedAt())));
-//        response.setList(xlist);
-//        ResponseModel re = new ResponseModel<InvoicesResponse>();
-//        re.setData(response);
-//        Result result = new Result();
-//        result.setErrNo(0);
-//        result.setErrMessage("Done");
-//        re.setResult(result);
-//        return ResponseEntity.ok(re);
-//    }
-//
-//    @PostMapping("/view")
-//    public ResponseEntity<ResponseModel<InvoiceViewResponse>> getAllView() {
-//        var x= purchaseServ.getView();
-//        InvoiceViewResponse response=new InvoiceViewResponse();
-//        response.setList(x);
-//        ResponseModel re = new ResponseModel<InvoicesResponse>();
-//        re.setData(response);
-//        Result result = new Result();
-//        result.setErrNo(0);
-//        result.setErrMessage("Done");
-//        re.setResult(result);
-//        return ResponseEntity.ok(re);
-//    }
-//
-//
-//    @PostMapping("/getdet")
-//    public ResponseEntity<ResponseModel<DetailResponse>> getDetailsOfInvoice(@RequestBody ParamReq paramReq) {
-//        var x= purchaseServ.get_det(paramReq.getPam().longValue());
-//        Result result = new Result();
-//        ResponseModel re = new ResponseModel<InvoicesResponse>();
-//        DetailResponse response=new DetailResponse();
-//        response.setList(x);
-//        re.setData(response);
-//        result.setErrNo(0);
-//        result.setErrMessage("Done");
-//        re.setResult(result);
-//        return ResponseEntity.ok(re);
-//
-//    }

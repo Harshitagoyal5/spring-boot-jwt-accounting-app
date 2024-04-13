@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 public class PchDetailView {
     @Id
     private Long id;
-    private int qty;
+    private int qty;private int head;
     private Double amt;
     private Double price;
     private String cate;

@@ -3,9 +3,13 @@ package com.alibou.security.project.serv.pch;
 import com.alibou.security.project.entity.pch.PchDetail;
 import com.alibou.security.project.entity.pch.PchHead;
 import com.alibou.security.project.entity.pch.PchTempHead;
+import com.alibou.security.project.entity.views.PchDetailView;
+import com.alibou.security.project.entity.views.PchHeadView;
 import com.alibou.security.project.repos.pch.PchDetailRepo;
 import com.alibou.security.project.repos.pch.PchHeadRepo;
 import com.alibou.security.project.repos.pch.PchTempHeadRepo;
+import com.alibou.security.project.repos.views.PchDetailViewRepo;
+import com.alibou.security.project.repos.views.PchHeadViewRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -25,6 +29,10 @@ public class PchServ {
 
     @Autowired
     private PchDetailRepo pchDetailRepo;
+    @Autowired
+    private PchDetailViewRepo pchDetailViewRepo;
+    @Autowired
+    private PchHeadViewRepo pchHeadViewRepo;
     @Autowired
     private PchTempHeadRepo pchTempHeadRepo;
 
@@ -50,9 +58,25 @@ public class PchServ {
         List<PchHead> pchHeads=  pchHeadRepo.findAll();
         return  pchHeads;
     }
+    public List<PchHeadView> getHeadsInvView(){
+        List<PchHeadView> pchHeads=  pchHeadViewRepo.findAll();
+        return  pchHeads;
+    }
+
+    public boolean isExs(Long i){
+        var ex= pchHeadRepo.FindByTemp(i);
+        if(ex.isPresent()){
+            return true;
+        }
+        return false;
+    }
 
     public List<PchDetail> getDetailsOfInv(Long i){
         List<PchDetail> pchDetails=pchDetailRepo.GetDetailsOfInvoice(i);
+        return pchDetails;
+    }
+    public List<PchDetailView> getDetailsOfInvView(Long i){
+        List<PchDetailView> pchDetails=pchDetailViewRepo.GetDetailsOfInvoice(i);
         return pchDetails;
     }
 }
