@@ -8,23 +8,21 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Immutable;
 
-import java.time.LocalDateTime;
-
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Immutable
-@Table(name = "pch_detail_view")
-public class PchDetailView {
+@Table(name = "sale_detail_view")
+public class SaleDetailView {
     @Id
     private Long id;
     private int qty;
-    private int head;
     private Double amt;
     private Double price;
     private String cate;
     private Long cate_id;
+    private Long sale_id;
     private String unit;
     private String product;
     private Long product_id;

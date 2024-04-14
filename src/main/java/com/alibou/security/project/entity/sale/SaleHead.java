@@ -21,6 +21,7 @@ public class SaleHead {
     private Long id;
     private Double total=0.0;
     private Double discount=0.0;
+    private String customer;
 
 
     @Column(updatable = false)

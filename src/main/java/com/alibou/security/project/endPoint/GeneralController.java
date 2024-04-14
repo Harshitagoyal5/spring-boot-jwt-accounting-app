@@ -7,11 +7,10 @@ import com.alibou.security.project.entity.Cate;
 import com.alibou.security.project.entity.Unit;
 import com.alibou.security.project.entity.Vendor;
 import com.alibou.security.project.entity.views.MainStock;
+import com.alibou.security.project.entity.views.TransView;
 import com.alibou.security.project.repos.views.MainStockRepo;
-import com.alibou.security.project.resp.AccountResponse;
-import com.alibou.security.project.resp.CateResponse;
-import com.alibou.security.project.resp.UnitResponse;
-import com.alibou.security.project.resp.VendorResponse;
+import com.alibou.security.project.repos.views.TransViewRepo;
+import com.alibou.security.project.resp.*;
 import com.alibou.security.project.serv.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -37,14 +36,16 @@ public class GeneralController {
     private CateServ cateServ;
 
     @Autowired
-    private MainStockRepo mainStockRepo;
-
-    @PostMapping("/stock/all")
-    public ResponseEntity<ResponseModel> getAllStock() {
-        List<MainStock> mainStocks=mainStockRepo.findAll();
+    private TransViewRepo transViewRepo;
+//
+    @PostMapping("/trans/all")
+    public ResponseEntity<ResponseModel> getAllTrans() {
+        List<TransView> transViews=transViewRepo.GetAllTrans();
 
         ResponseModel re = new ResponseModel<>();
-        re.setData(mainStocks);
+        TransResponse transResponse=new TransResponse();
+        transResponse.setList(transViews);
+        re.setData(transResponse);
         Result result = new Result();
         //result.setStatus(true);
         result.setErrNo(0);
