@@ -41,7 +41,7 @@ public class SaleServ {
         List<SaleDetail> details=new ArrayList<>();
        Long id= oj.getId();
        saleDetails.forEach(s->{
-           Product product = productRepo.findById(s.getProduct_id()).get();
+           Product product = productRepo.findProductByCode(s.getCode());
            SaleDetail saleDetail = new SaleDetail(null,product,s.getPrice(),s.getQty(),s.getAmt(),id);
            details.add(saleDetail);
        });

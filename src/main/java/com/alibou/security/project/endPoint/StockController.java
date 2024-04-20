@@ -4,6 +4,9 @@ import com.alibou.security.payload.ResponseModel;
 import com.alibou.security.payload.Result;
 import com.alibou.security.project.request.TempRequest;
 import com.alibou.security.project.request.UpdatePriceRequest;
+import com.alibou.security.project.resp.stock.AvaResponse;
+import com.alibou.security.project.resp.stock.NoAvaResponse;
+import com.alibou.security.project.resp.stock.NoPriceResponse;
 import com.alibou.security.project.serv.stock.StockServ;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -51,18 +54,21 @@ public class StockController {
 
     @PostMapping("/available")
     public ResponseEntity<ResponseModel> allAvaItems() throws SQLException {
-
+        AvaResponse avaResponse=new AvaResponse();
         Result result = new Result();
-        ResponseModel re = new ResponseModel();
+      //  ResponseModel re = new ResponseModel();
         ResponseModel responseModel = new ResponseModel<>();
         ResponseEntity<ResponseModel> response;
 
         var st= stockServ.getAllItemsAvailable();
-        re.setData(st);
+        avaResponse.setList(st);
+
+
         result.setErrNo(0);
         result.setErrMessage("Done");
-        re.setResult(result);
-        return ResponseEntity.ok(re);
+        responseModel.setData(avaResponse);
+        responseModel.setResult(result);
+        return ResponseEntity.ok(responseModel);
     }
 
     @PostMapping("/no-available")
@@ -72,12 +78,15 @@ public class StockController {
         ResponseModel re = new ResponseModel();
         ResponseModel responseModel = new ResponseModel<>();
         ResponseEntity<ResponseModel> response;
+        NoAvaResponse noAvaResponse =new NoAvaResponse();
 
         var st= stockServ.getAllItemsNonAvailable();
-        re.setData(st);
+        noAvaResponse.setList(st);
+
         result.setErrNo(0);
         result.setErrMessage("Done");
-        re.setResult(result);
+        responseModel.setData(noAvaResponse);
+        responseModel.setResult(result);
         return ResponseEntity.ok(re);
     }
     @PostMapping("/no-price")
@@ -87,12 +96,14 @@ public class StockController {
         ResponseModel re = new ResponseModel();
         ResponseModel responseModel = new ResponseModel<>();
         ResponseEntity<ResponseModel> response;
+        NoPriceResponse noPriceResponse=new NoPriceResponse();
 
         var st= stockServ.getAllItemsWithNoPrice();
-        re.setData(st);
+        noPriceResponse.setList(st);
         result.setErrNo(0);
         result.setErrMessage("Done");
-        re.setResult(result);
+        responseModel.setData(noPriceResponse);
+        responseModel.setResult(result);
         return ResponseEntity.ok(re);
     }
     @PostMapping("/mv-stock")

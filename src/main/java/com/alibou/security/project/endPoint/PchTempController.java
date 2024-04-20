@@ -35,7 +35,7 @@ public class PchTempController {
     }
 
 
-    @GetMapping("/details")
+    @PostMapping("/details")
     public ResponseEntity<ResponseModel> getDet(@RequestBody ParamReq paramReq) throws SQLException {
 
         PchTempDetailResponse pchTempDetailResponse =new PchTempDetailResponse();
