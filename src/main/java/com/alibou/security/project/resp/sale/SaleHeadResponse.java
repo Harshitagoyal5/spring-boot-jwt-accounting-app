@@ -1,7 +1,6 @@
 package com.alibou.security.project.resp.sale;
 
 import com.alibou.security.project.entity.sale.SaleHead;
-import com.alibou.security.project.entity.views.PchHeadView;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,6 +13,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SaleHeadResponse {
-    @JsonProperty("head-lst")
+    @JsonProperty("head-sale-lst")
     private List<SaleHead> list;
 }

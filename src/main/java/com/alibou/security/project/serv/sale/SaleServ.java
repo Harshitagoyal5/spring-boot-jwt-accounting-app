@@ -54,6 +54,6 @@ public class SaleServ {
         return  saleDetailViewRepo.GetDetailsOfInvoice(i);
     }
     public List<SaleHead>getAllInv(){
-        return saleHeadRepo.findAll();
+        return saleHeadRepo.getAllDesc();
     }
 }
