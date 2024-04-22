@@ -87,7 +87,7 @@ public class StockController {
         result.setErrMessage("Done");
         responseModel.setData(noAvaResponse);
         responseModel.setResult(result);
-        return ResponseEntity.ok(re);
+        return ResponseEntity.ok(responseModel);
     }
     @PostMapping("/no-price")
     public ResponseEntity<ResponseModel> allNoPriceItems() throws SQLException {
@@ -104,7 +104,7 @@ public class StockController {
         result.setErrMessage("Done");
         responseModel.setData(noPriceResponse);
         responseModel.setResult(result);
-        return ResponseEntity.ok(re);
+        return ResponseEntity.ok(responseModel);
     }
     @PostMapping("/mv-stock")
     public ResponseEntity<ResponseModel> allMvItems() throws SQLException {
