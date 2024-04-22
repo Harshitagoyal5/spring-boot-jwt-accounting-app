@@ -1,6 +1,7 @@
 package com.alibou.security.project.entity.sale;
 
 import com.alibou.security.project.entity.Vendor;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,6 +26,7 @@ public class SaleHead {
 
 
     @Column(updatable = false)
+    @JsonProperty("created_at")
     private LocalDateTime createdAt;
 
     @PrePersist
