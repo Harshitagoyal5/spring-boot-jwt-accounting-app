@@ -8,12 +8,13 @@ This project demonstrates the implementation of security using Spring Boot 3.0 a
 * Customized access denied handling
 * Logout mechanism
 * Refresh token
+
 Project 
-*Sales
-*Purchases
-*Stacks
-*Expenses
-*Etc.
+* Sales
+* Purchases
+* Stacks
+* Expenses
+* Etc.
 
 ## Technologies
 * Spring Boot 3.0
