@@ -37,5 +37,3 @@ To build and run the project, follow these steps:
 * Add database "fintech" to mysql 
 * Build the project: mvn clean install
 * Run the project: mvn spring-boot:run 
-
--> The application will be available at http://localhost:9098/myapp238
